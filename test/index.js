@@ -1,34 +1,29 @@
 import assert from 'assert';
-import {
-  create,
-  getProductCount,
-  getTotalValue,
-  addProduct,
-  getProducts,
-  removeProduct
-} from '../lib';
+import {ShoppingCart} from '../lib/shopping-cart';
 
 describe('Shopping cart', () => {
+  let shoppingCart;
+
   beforeEach(() => {
-    create();
+    shoppingCart = new ShoppingCart();
   });
 
   it('should create an empty shopping cart', () => {
-    assert.equal(getProductCount(), 0);
+    assert.equal(shoppingCart.getProductCount(), 0);
   });
 
   it('should add single product to shopping cart', () => {
-    addProduct({name: 'bag', price: 200});
-    assert.equal(getProductCount(), 1);
-    assert.equal(getTotalValue(), 200);
+    shoppingCart.addProduct({name: 'bag', price: 200});
+    assert.equal(shoppingCart.getProductCount(), 1);
+    assert.equal(shoppingCart.getTotalValue(), 200);
   });
 
   it('should add different product to the shopping cart', () => {
-    addProduct({name: 'bag', price: 200});
-    addProduct({name: 'hat', price: 60});
+    shoppingCart.addProduct({name: 'bag', price: 200});
+    shoppingCart.addProduct({name: 'hat', price: 60});
 
-    assert.equal(getProductCount(), 2);
-    assert.equal(getTotalValue(), 260);
+    assert.equal(shoppingCart.getProductCount(), 2);
+    assert.equal(shoppingCart.getTotalValue(), 260);
   });
 
   it('should get all products', () => {
@@ -36,10 +31,10 @@ describe('Shopping cart', () => {
       {name: 'bag', price: 200},
       {name: 'hat', price: 60}
     ];
-    addProduct(products[0]);
-    addProduct(products[1]);
+    shoppingCart.addProduct(products[0]);
+    shoppingCart.addProduct(products[1]);
 
-    assert.deepEqual(getProducts(), products);
+    assert.deepEqual(shoppingCart.getProducts(), products);
   });
 
   it('should remove a product', () => {
@@ -47,15 +42,15 @@ describe('Shopping cart', () => {
       {name: 'bag', price: 200},
       {name: 'hat', price: 60}
     ];
-    addProduct(products[0]);
-    addProduct(products[1]);
+    shoppingCart.addProduct(products[0]);
+    shoppingCart.addProduct(products[1]);
 
-    removeProduct('bag');
+    shoppingCart.removeProduct('bag');
 
-    assert.equal(getProductCount(), 1);
+    assert.equal(shoppingCart.getProductCount(), 1);
 
-    removeProduct('shoes');
+    shoppingCart.removeProduct('shoes');
 
-    assert.equal(getProductCount(), 1);
+    assert.equal(shoppingCart.getProductCount(), 1);
   });
 });
